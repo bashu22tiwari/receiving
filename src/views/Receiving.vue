@@ -45,12 +45,6 @@ export default defineComponent({
       user: 'user/getCurrentFacility'
     })
   },
-  data(){
-    return{
-      viewSize:'',
-      viewIndex:''
-    }
-  },
   mounted () {
     this.getShipments();
   },
@@ -66,7 +60,8 @@ export default defineComponent({
       const payload = {
         viewSize,
         viewIndex,
-        facilityId: this.user.facilityId
+        facilityId: this.user.facilityId,
+        statusId: "PURCH_SHIP_SHIPPED"
       }
       await this.store.dispatch("shipment/findShipment", payload);
       console.log(this.shipments)
@@ -78,7 +73,7 @@ export default defineComponent({
       cloudDownloadOutline,
       store
     }
-  },
+  }
 })
 </script>
 

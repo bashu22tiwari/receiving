@@ -12,7 +12,14 @@ const mutations: MutationTree <ShipmentState> = {
     state.current = payload.current;
   },
   [types.SHIPMENT_REMOVE_FROM_SHPMT_PRDTS] (state, payload) {
-     delete state.shipments.list[payload.shipmentId];
+    delete state.shipments.list[payload.shipmentId];
+  },
+  [types.UPDATE_SHIPMENT_PRODUCT_COUNT] (state, payload) {
+    state.current.items.forEach((item: any) => {
+      if(item.productId === payload){
+        item.quantityAccepted = parseInt(item.quantityAccepted) + 1 ;
+      }
+    });
   }
 }
 export default mutations;

@@ -11,15 +11,9 @@ const actions: ActionTree<ShipmentState, RootState> = {
   async findShipment ({ commit, state }, payload) {
     let resp;
     try {
-      resp = await ShipmentService.fetchShipments({
-        "viewSize": payload.viewSize,
-        "viewIndex": payload.viewIndex,
-        "facilityId": payload.facilityId,
-        "statusId": "PURCH_SHIP_SHIPPED"
-      })
+      resp = await ShipmentService.fetchShipments(payload)
       if (resp.status === 200 && resp.data.count> 0 && !hasError(resp)) {
         let shipments = resp.data.docs;
-
         if (payload.viewIndex && payload.viewIndex > 0) shipments = state.shipments.list.concat(shipments)
         commit(types.SHIPMENT_SEARCH_UPDATED, { shipments })
       } else {
@@ -46,7 +40,7 @@ const actions: ActionTree<ShipmentState, RootState> = {
 
         productIds = [...productIds]
         if(productIds.length) {
-          this.dispatch('product/setCurrentProduct', { productIds })
+          this.dispatch('product/getCurrentShipmentProducts', { productIds })
         }
         return resp.data;
       } else {
@@ -82,6 +76,9 @@ const actions: ActionTree<ShipmentState, RootState> = {
       showToast(translate("Something went wrong"));
     } 
     return resp;
+  },
+  async updateShipmentProductCount({ commit }, payload){
+    commit(types.UPDATE_SHIPMENT_PRODUCT_COUNT, payload)
   }
 }
 
