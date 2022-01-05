@@ -17,6 +17,7 @@ const actions: ActionTree<UserState, RootState> = {
   async login ({ commit, dispatch }, { username, password }) {
     try {
       const resp = await UserService.login(username, password)
+      console.log(resp)
       if (resp.status === 200 && resp.data) {
         if (resp.data.token) {
             commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token })
